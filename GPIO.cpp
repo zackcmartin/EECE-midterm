@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <cmath>
 #include "GPIO.h"
+
+using namespace std;
+
 GPIO::GPIO(int number)
 {
   // GPIO device files will follow the format
@@ -28,6 +31,7 @@ GPIO::~GPIO()
 }
 void GPIO::GeneratePWM(int period, int pulse, int num_periods)
 {
+  cout << "in generate" << pulse << endl;
   // Generate num_perios of the PWM signal
   for (int i = 0; i < num_periods; i++)
   {

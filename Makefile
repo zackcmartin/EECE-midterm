@@ -1,11 +1,11 @@
-output: ServoSpeed.o GPIO.o
-	g++ ServoSpeed.o GPIO.o -o output	
+output: Midterm.o GPIO.o
+	g++ Midterm.o GPIO.o -o output -lpthread
 
-ServoSpeed.o: ServoSpeed.cpp GPIO.h
-	g++ -g -Wall -c ServoSpeed.cpp
+Midterm.o: Midterm.cpp GPIO.h
+	g++ -g -Wall -c Midterm.cpp -lpthread
 
 GPIO.o: GPIO.cpp GPIO.h
 	g++ -g -Wall -c GPIO.cpp
 
 clean:
-	rm ServoSpeed.o GPIO.o output
+	rm Midterm.o GPIO.o output
