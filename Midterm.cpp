@@ -17,12 +17,17 @@ GPIO *gripper = new GPIO(0);
 
 int NUM_THREADS = 5;
 GPIO *gpioList[5] = {base, bicep, elbow, wrist, gripper};
+
+//These are the positions for each move
 int standStraightPositions[5] = {90, 75, 80, 73, 90};
 int moveBaseRight[5] = {110, 75, 80, 0, 90};
 int moveRight[5] = {110, 75, 150, 110, 170};
-int moveRightSpeed[5] = {30, 30, 30, 30, 30};
 int gripRight[5] = {110, 75, 150, 110, 0};
 
+//This is the speed for the move
+int moveRightSpeed[5] = {30, 30, 30, 30, 30};
+
+//Data for a position move (without speeed)
 struct threadDataPos
 {
     GPIO *gpio;
@@ -30,6 +35,8 @@ struct threadDataPos
     int degree;
 };
 
+
+//Data for a move with speed
 struct threadDataSpeed
 {
     GPIO *gpio;
@@ -41,6 +48,8 @@ struct threadDataSpeed
 int servoPulseStart;
 int servoPulseEnd;
 
+
+//Converts from degrees to pulse
 int degreeToOnDelay(int sPosition)
 {
     return (sPosition * 10) + 600;
@@ -101,6 +110,7 @@ int main()
     int rc;
     int i;
 
+    //This makes the arm stand up straight for a second (50).
        for( i = 0; i < NUM_THREADS; i++ ) {
           cout << "main() : creating thread, " << i << endl;
           threadDataPos threadData = {gpioList[i], 50, standStraightPositions[i]};
@@ -118,6 +128,7 @@ int main()
 
        cout << "passed the joins" << endl;
 
+    //This moves the base of the arm to the starting position to pick up the bottles 
            for( i = 0; i < NUM_THREADS; i++ ) {
           cout << "main() : creating threadTWO, " << i << endl;
           threadDataPos threadData = {gpioList[i], 50, moveBaseRight[i]};
@@ -133,6 +144,9 @@ int main()
            pthread_join(threads2[i], NULL);
        }
 
+    //This is the loop in which I am trying to manipulate the speed of the robot arm using
+    //GenerateVariablePMW. It is supposed to move down to pick up the water bottle.
+    //This is currently not working correctly
     for (i = 0; i < NUM_THREADS; i++)
     {
         // if (i == 3)
@@ -148,6 +162,12 @@ int main()
             }
         // }
 
+
+
+
+//This commeneted out code is the code to move the arm to pick up the water bottle without
+//manipulating the speed
+
         // else{
         //     cout << "main() : creating threadTHREE, " << i << endl;
         //     threadDataPos threadData = {gpioList[i], 100, moveRight[i]};
@@ -161,6 +181,7 @@ int main()
         // }
     }
 
+//This makes the arm grip onto the cap of the water bottle (currently set for 8 seconds (400))
     for (i = 0; i < NUM_THREADS; i++)
     {
         pthread_join(threads3[i], NULL);

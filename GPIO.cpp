@@ -66,5 +66,5 @@ void GPIO::GenerateVariablePWM(int period, int first_pulse, int last_pulse, int 
       curr_pulse = curr_pulse + increment;
   }
 
-  GeneratePWM(20000, last_pulse, 50);
+  // GeneratePWM(20000, last_pulse, 50);
 }
