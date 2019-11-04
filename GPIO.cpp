@@ -31,7 +31,6 @@ GPIO::~GPIO()
 }
 void GPIO::GeneratePWM(int period, int pulse, int num_periods)
 {
-  cout << "in generate" << pulse << endl;
   // Generate num_perios of the PWM signal
   for (int i = 0; i < num_periods; i++)
   {
@@ -48,8 +47,9 @@ void GPIO::GeneratePWM(int period, int pulse, int num_periods)
 
 void GPIO::GenerateVariablePWM(int period, int first_pulse, int last_pulse, int num_periods)
 {
+  cout << "here" << endl;
   int curr_pulse = first_pulse;
-  int increment = abs(first_pulse - last_pulse) / num_periods;
+  int increment = (last_pulse - first_pulse) / num_periods;
   // Generate num_perios of the PWM signal
 
   for (int i = 0; i < num_periods; i++)
@@ -63,10 +63,8 @@ void GPIO::GenerateVariablePWM(int period, int first_pulse, int last_pulse, int 
     write(fd, "0", 1);
     usleep(period - curr_pulse);
 
-    if (first_pulse - last_pulse > 0) {
-      curr_pulse = curr_pulse - increment;
-    } else {
       curr_pulse = curr_pulse + increment;
-    }
   }
+
+  GeneratePWM(20000, last_pulse, 50);
 }
